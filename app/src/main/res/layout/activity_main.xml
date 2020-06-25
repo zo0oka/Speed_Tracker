@@ -6,18 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <com.cardiomood.android.controls.gauge.SpeedometerGauge
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/speed_text"
-        tools:text="45"
-        android:gravity="center_horizontal"
-        android:textSize="35sp"
-        android:textStyle="bold"
+        android:id="@+id/speedometer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speed_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/speedometer"
+        app:layout_constraintEnd_toEndOf="@id/speedometer"
+        app:layout_constraintStart_toStartOf="@id/speedometer"
+        app:layout_constraintTop_toTopOf="@id/speedometer"
+        tools:text="45 km/h" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
