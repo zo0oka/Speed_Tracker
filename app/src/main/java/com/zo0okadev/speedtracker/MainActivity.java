@@ -1,20 +1,24 @@
 package com.zo0okadev.speedtracker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -22,17 +26,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.zo0okadev.speedtracker.databinding.ActivityMainBinding;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements GoogleApiClient.ConnectionCallbacks,
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    private ActivityMainBinding binding;
     private Location location;
-    private Speedometer speedometerGauge;
-    private TextView locationTv;
     private GoogleApiClient googleApiClient;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
@@ -42,14 +45,22 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> permissions = new ArrayList<>();
     private static final int ALL_PERMISSIONS_RESULT = 1011;
 
+    public static void setSystemBarColor(Activity act, @ColorRes int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = act.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(act.getResources().getColor(color));
+            window.setNavigationBarColor(act.getResources().getColor(color));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        locationTv = findViewById(R.id.speed_text);
-        speedometerGauge = findViewById(R.id.speedometer);
+        setSystemBarColor(this, R.color.colorPrimary);
 //        speedometerGauge.setMaxSpeed(300);
 //
 //        speedometerGauge.setLabelConverter(new SpeedometerGauge.LabelConverter() {
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         if (!checkPlayServices()) {
-            locationTv.setText("You need to install Google Play Services to use the App properly");
+//            binding.speedText.setText("You need to install Google Play Services to use the App properly");
         }
     }
 
@@ -167,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
         if (location != null) {
-            locationTv.setText("Connected");
+//            binding.speedText.setText("Connected");
         }
 
         startLocationUpdates();
@@ -206,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             Log.d("Speed", String.valueOf(speed));
 //            locationTv.setText(String.format("%s km/h", kmphSpeed));
 //            speedometerGauge.setSpeed(kmphSpeed, true);
-            speedometerGauge.onSpeedChanged((float) kmphSpeed);
+            binding.speedometer.onSpeedChanged((float) kmphSpeed);
         }
     }
 
