@@ -1,22 +1,20 @@
 package com.zo0okadev.speedtracker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -182,7 +180,7 @@ public class MainActivity extends AppCompatActivity
             double currentSpeed = round(speed,1,BigDecimal.ROUND_HALF_UP);
             double kmphSpeed = round((currentSpeed*3.6),1, BigDecimal.ROUND_HALF_UP);
             Log.d("Speed", String.valueOf(speed));
-            locationTv.setText(String.format("Speed\n%s", kmphSpeed));
+            locationTv.setText(String.format("Speed\n%s\nKm/hr", kmphSpeed));
         }
     }
 
