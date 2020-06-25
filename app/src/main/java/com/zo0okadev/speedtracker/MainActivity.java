@@ -3,7 +3,6 @@ package com.zo0okadev.speedtracker;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.cardiomood.android.controls.gauge.SpeedometerGauge;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private Location location;
-    private SpeedometerGauge speedometerGauge;
+    private Speedometer speedometerGauge;
     private TextView locationTv;
     private GoogleApiClient googleApiClient;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -52,26 +50,26 @@ public class MainActivity extends AppCompatActivity
 
         locationTv = findViewById(R.id.speed_text);
         speedometerGauge = findViewById(R.id.speedometer);
-        speedometerGauge.setMaxSpeed(300);
-
-        speedometerGauge.setLabelConverter(new SpeedometerGauge.LabelConverter() {
-            @Override
-            public String getLabelFor(double progress, double maxProgress) {
-                Log.d("Progress: ", String.valueOf(progress));
-                Log.d("MaxProgress: ", String.valueOf(maxProgress));
-                return String.valueOf((int) Math.round(progress));
-            }
-        });
-
-        speedometerGauge.setLabelTextSize(30);
-
-        speedometerGauge.setMaxSpeed(300);
-        speedometerGauge.setMajorTickStep(30);
-        speedometerGauge.setMinorTicks(2);
-        speedometerGauge.addColoredRange(0, 100, Color.GREEN);
-        speedometerGauge.addColoredRange(100, 200, Color.YELLOW);
-        speedometerGauge.addColoredRange(200, 300, Color.RED);
-        speedometerGauge.setSpeed(0, true);
+//        speedometerGauge.setMaxSpeed(300);
+//
+//        speedometerGauge.setLabelConverter(new SpeedometerGauge.LabelConverter() {
+//            @Override
+//            public String getLabelFor(double progress, double maxProgress) {
+//                Log.d("Progress: ", String.valueOf(progress));
+//                Log.d("MaxProgress: ", String.valueOf(maxProgress));
+//                return String.valueOf((int) Math.round(progress));
+//            }
+//        });
+//
+//        speedometerGauge.setLabelTextSize(30);
+//
+//        speedometerGauge.setMaxSpeed(300);
+//        speedometerGauge.setMajorTickStep(30);
+//        speedometerGauge.setMinorTicks(2);
+//        speedometerGauge.addColoredRange(0, 100, Color.GREEN);
+//        speedometerGauge.addColoredRange(100, 200, Color.YELLOW);
+//        speedometerGauge.addColoredRange(200, 300, Color.RED);
+//        speedometerGauge.setSpeed(0, true);
 
 
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -206,8 +204,9 @@ public class MainActivity extends AppCompatActivity
             double currentSpeed = round(speed, 1, BigDecimal.ROUND_HALF_UP);
             double kmphSpeed = round((currentSpeed * 3.6), 1, BigDecimal.ROUND_HALF_UP);
             Log.d("Speed", String.valueOf(speed));
-            locationTv.setText(String.format("%s km/h", kmphSpeed));
-            speedometerGauge.setSpeed(kmphSpeed, true);
+//            locationTv.setText(String.format("%s km/h", kmphSpeed));
+//            speedometerGauge.setSpeed(kmphSpeed, true);
+            speedometerGauge.onSpeedChanged((float) kmphSpeed);
         }
     }
 
